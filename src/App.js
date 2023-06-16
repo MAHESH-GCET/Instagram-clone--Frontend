@@ -11,7 +11,7 @@ import UserProfile from './components/UserProfile/UserProfile';
 import FileUpload from './components/FileUpload';
 import { useSelector } from 'react-redux';
 import EditProfile from './components/EditProfile/EditProfile';
-
+import AddPost from './components/AddPost.js/AddPost';
 
 function App() {
   // get user details
@@ -51,6 +51,10 @@ function App() {
         {
           path:`/${user.username}/edit`,
           element:<EditProfile/>
+        },
+        {
+          path:`${user.username}/newPost`,
+          element:<AddPost/>
         }
       ]
     }

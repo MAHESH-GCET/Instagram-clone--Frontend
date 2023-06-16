@@ -1,0 +1,23 @@
+.post {
+    padding: 5rem 0;
+}
+  
+.post::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+img {
+    display: flex;
+  }
+  
+.post-preview {
+    max-width: 300px;
+    max-height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 3rem;
+    overflow: hidden;
+}
+  

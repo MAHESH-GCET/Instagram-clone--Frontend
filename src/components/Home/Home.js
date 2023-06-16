@@ -42,12 +42,12 @@ function Home() {
       {
         fetched ? (
           feed.map((post)=>(
-            <div className='w-full rounded overflow-hidden border lg:w-6/12 md:w-6/12 bg-white mx-3 md:mx-0 lg:mx-0 mt-3' key={post.postId}>
+            <div className=' w-full rounded overflow-hidden border lg:w-6/12 md:w-6/12 bg-white mx-3 md:mx-0 lg:mx-0 mt-3' key={post.postId}>
               {/* {post header} */}
               <div className='w-full flex justify-between p-3'>
                 <div className='flex'>
                   <div className='rounded-full h-8 w-8 bg-grey=500 flex items-center justify-center overflow-hidden'>
-                    <img src={`${post.User.profileURL}`}/>
+                    <img src={`${post.User.profileURL}`} alt='preview'/>
                   </div>
                   <span className='pt-1 ml-2 font-bold text-sm'>{post.username}</span>
                 </div>
@@ -55,6 +55,7 @@ function Home() {
               {/* {post} */}
               <img
               className='w-full bg-cover'
+              alt='preview'
               src={`${post.imageUrl}`} 
               />
               {/* {post footer} */}

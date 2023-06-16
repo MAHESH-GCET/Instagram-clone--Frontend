@@ -4,22 +4,25 @@ import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import {useForm} from 'react-hook-form'
 import './EditProfile.css'
+import { useSelector } from 'react-redux';
+import axios from 'axios'
+import {Spinner} from 'react-bootstrap'
 
 function EditProfile() {
+    const {user}=useSelector(state=>state.login)
     let navigate=useNavigate()
 
     // form
     let {
         register,
-        setValue,
-        getValues,
-        reset
+        getValues
     } = useForm();
     
   const [show, setShow] = useState(true);
   const [newProfile,setNewProfile]=useState([])
   const [imageUpload,setImageUpload]=useState(false)
   const [imagePreview, setImagePreview] = useState(null);
+  const [loadSpinner,setLoadSpinner]=useState(false)
 
   const handleClose = () => navigate(-1);
 
@@ -32,6 +35,7 @@ function EditProfile() {
     setFileToBase(file);
     console.log(file);
     setImageUpload(true)
+    
     // preview
     const reader=new FileReader();
     reader.onloadend=()=>{
@@ -40,6 +44,7 @@ function EditProfile() {
     reader.readAsDataURL(file);
     }
 
+    // read file and set file object
     const setFileToBase = (file) =>{
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -48,11 +53,30 @@ function EditProfile() {
     }
     }
 
-
+    // get token
+    const token=sessionStorage.getItem('token')
+    
     // update details
-    const updateDetails=()=>{
-        let data=getValues()
-        console.log(data,newProfile)
+    const updateDetails=async()=>{
+        let {bio}=getValues()
+        try{
+            setLoadSpinner(true)
+            let response=await axios.put(`http://localhost:5000/userApi/${user.username}/update`,
+            {bio,newProfile},{
+                headers:{
+                    Authorization:`bearer ${token}`
+                }
+            })
+            console.log(response)
+            if(response.status===200){
+                navigate(-1)
+                setLoadSpinner(false)
+            } else{
+                console.log('error')
+            }
+        } catch(err){
+            console.log(err)
+        }
     }
 
 
@@ -65,6 +89,7 @@ function EditProfile() {
         <Modal.Body>
             <div className='edit'>
             {
+                // {image preview}
                 imageUpload? (
                     <div className='image-preview mx-auto mb-4'>
                         {
@@ -75,14 +100,15 @@ function EditProfile() {
                     <div className='image-preview mx-auto mb-4'>
                     <img
                     src={`${profile}`}
-                    alt='Image Preview'
+                    alt='Preview'
                     >
                     </img>
-            </div>
+                    </div>
                 )
             }
-            
+            {/* {edit form} */}
             <form>
+            {/* {profile picture} */}
             <div className='d-flex'>
                 <div>
                     <label 
@@ -98,6 +124,7 @@ function EditProfile() {
                     style={{height:'50px'}} />
                 </div>
             </div>
+            {/* {bio} */}
             <div className='d-flex mt-2'>
                 <div>
                     <label htmlFor='bio' className='fw-bold text-dark fs-4'>Bio</label>
@@ -115,9 +142,16 @@ function EditProfile() {
         </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button className='btn btn-danger p-1' onClick={updateDetails}>
-            Save
-          </Button>
+            {
+                loadSpinner===true ? (
+                    <Spinner animation="border" variant="primary" />
+                ) :(
+                    <Button className='btn btn-primary p-2' onClick={updateDetails}>
+                    Save
+                    </Button>
+                )
+            }
+          
         </Modal.Footer>
       </Modal>
     </div>

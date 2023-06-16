@@ -9,6 +9,7 @@ function UserProfile() {
     
     const navigate=useNavigate();
     // user data
+    const [userDetails,setUserDetails]=useState({})
     const [userPosts,setUserPosts]=useState([])
     const [err,setErr]=useState("")
     const [dataFetched,setDataFetched]=useState(false)
@@ -17,7 +18,27 @@ function UserProfile() {
 
     // get token
     let token=sessionStorage.getItem('token')
-    // get data from backend
+    
+    // get user details
+    const getUserDetails=async()=>{
+        try{
+            let response=await axios.get(`http://localhost:5000/user/${user.username}`,{
+                headers:{
+                    Authorization:`bearer ${token}`,
+                }
+            })
+            if(response.status===200){
+                setUserDetails(response.data.user);
+            } 
+            else{
+                console.log('error fetching user details')
+            }
+        } catch(err){
+            throw new Error(err)
+        }
+    }
+
+    // get posts data from backend
     const getdata=async()=>{
         try{
             let response=await axios.get(`http://localhost:5000/home/${user.username}`,{
@@ -25,7 +46,7 @@ function UserProfile() {
                     Authorization:`bearer ${token}`
                 }
             })
-            console.log(response.data.payload)
+            console.log(response.data)
             if(response.status===200){
                 setUserPosts(response.data.payload)
                 setDataFetched(true)
@@ -39,8 +60,9 @@ function UserProfile() {
     }
     
     useEffect(()=>{
+        getUserDetails()
         getdata()
-    },[dataFetched])
+    },[user])
   return (
     <div>
         {
@@ -51,27 +73,27 @@ function UserProfile() {
                 <div className='profile'>
                     <div className='profile-image'>
                         <img
-                        src={`${user.profileURL}`}
+                        src={`${userDetails.profileURL}`}
                         alt=''/>
                     </div>
                     <div className='profile-user-settings'>
-                        <h1 className='profile-user-name'>{user.username}</h1>
+                        <h1 className='profile-user-name'>{userDetails.username}</h1>
                         <button 
                         className='btn profile-edit-btn'
-                        onClick={()=>navigate(`/${user.username}/edit`,{state:{bio:user.bio,profile:user.profileURL}})}
+                        onClick={()=>navigate(`/${user.username}/edit`,{state:{bio:userDetails.bio,profile:userDetails.profileURL}})}
                         >
                         Edit Profile
                         </button>
                     </div>
                     <div className='profile-stats'>
                         <ul>
-                            <li className='profile-stat-count'>{user.numberOfPosts} Posts</li>
-                            <li className='profile-stat-count'>{user.numberOfFollowers} Followers</li>
-                            <li className='profile-stat-count'>{user.numberOfFollowing} Following</li>
+                            <li className='profile-stat-count'>{userDetails.numberOfPosts} Posts</li>
+                            <li className='profile-stat-count'>{userDetails.numberOfFollowers} Followers</li>
+                            <li className='profile-stat-count'>{userDetails.numberOfFollowing} Following</li>
                         </ul>
                     </div>
                     <div className='profile-bio'>
-                        <p> <span className='profile-real-name'>{user.username}</span> {user.bio}</p>
+                        <p> <span className='profile-real-name'>{userDetails.username}</span> {userDetails.bio}</p>
                     </div>
                 </div>
                 </div>
@@ -89,6 +111,7 @@ function UserProfile() {
                                         />
                                         <div className='gallery-item-info'>
                                             <ul>
+                                                {/* {likes} */}
                                                 <li className='gallery-item-likes'>
                                                 <span className='visually-hidden'>Likes:</span>
                                                 <svg xmlns="http://www.w3.org/2000/svg" height="1em" fill='white' viewBox="0 0 512 512">
@@ -96,6 +119,7 @@ function UserProfile() {
                                                 </svg>
                                                 <span className='ms-2'>{post.Likes.length}</span>
                                                 </li>
+                                                {/* {comments} */}
                                                 <li className='gallery-item-comments'>
                                                 <svg xmlns="http://www.w3.org/2000/svg" height="1em" fill='white' viewBox="0 0 512 512">
                                                 <path d="M512 240c0 114.9-114.6 208-256 208c-37.1 0-72.3-6.4-104.1-17.9c-11.9 8.7-31.3 20.6-54.3 30.6C73.6 471.1 44.7 480 16 480c-6.5 0-12.3-3.9-14.8-9.9c-2.5-6-1.1-12.8 3.4-17.4l0 0 0 0 0 0 0 0 .3-.3c.3-.3 .7-.7 1.3-1.4c1.1-1.2 2.8-3.1 4.9-5.7c4.1-5 9.6-12.4 15.2-21.6c10-16.6 19.5-38.4 21.4-62.9C17.7 326.8 0 285.1 0 240C0 125.1 114.6 32 256 32s256 93.1 256 208z"/>
