@@ -19,7 +19,7 @@ function AddPost() {
   // user 
   let {user}=useSelector(state=>state.login)
   // modal
-  const [show, setShow] = useState(true);
+  const [show] = useState(true);
   const [imageUpload,setImageUpload]=useState(false)
   const [imagePreview, setImagePreview] = useState(null);
   const [image,setImage]=useState(null)
@@ -68,7 +68,7 @@ function AddPost() {
           Authorization:`bearer ${token}`
         }
       })
-      if(response.status===200){
+      if(response.status===201){
         handleSave()
         setLoadSpinner(false)
       } else{

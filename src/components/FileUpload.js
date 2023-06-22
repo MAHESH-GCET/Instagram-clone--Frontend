@@ -5,7 +5,7 @@ import { useState } from 'react'
 
 function FileUpload() {
     // form
-    const {register,handleSubmit}=useForm()
+    const {handleSubmit}=useForm()
     const [profileUrl,setProfileUrl]=useState([])
 
     //handle and convert it in base 64

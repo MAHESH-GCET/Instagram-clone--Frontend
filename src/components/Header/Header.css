@@ -41,8 +41,16 @@ main {
 	font-size: 40px;
 	font-family: "billabong", sans-serif;
 	text-decoration: none;
+	transition: scale 400ms;
 }
 
+.navigation .logo:hover  {
+	scale: 110%;
+}
+
+.navigation ul:hover {
+	scale:105%
+}
 
 
 /* 
@@ -50,6 +58,7 @@ main {
 .navigation {
 	padding: 0 20px;
 	justify-content: space-between;
+	transition: scale 400ms;
 }
 
 

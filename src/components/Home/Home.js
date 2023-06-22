@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
 import { NavLink } from 'react-router-dom'
+import {Spinner} from 'react-bootstrap'
 
 function Home() {
   // get user
@@ -38,11 +38,12 @@ function Home() {
   },[fetched])
 
   return (
-    <div className='container mx-auto my-10 sm:px-20 flex justify-center' style={{marginTop:'90px', height:'2200px'}}>
+    <div className='container d-flex mx-auto  sm:px-20 flex justify-center' style={{marginTop:'90px', height:'auto'}}>
       {
         fetched ? (
           feed.map((post)=>(
-            <div className=' w-full rounded overflow-hidden border lg:w-6/12 md:w-6/12 bg-white mx-3 md:mx-0 lg:mx-0 mt-3' key={post.postId}>
+
+            <div className=' w-75 overflow-visible rounded border lg:w-6/12 md:w-6/12 bg-white mx-3 md:mx-0 lg:mx-0 mt-3' key={post.postId}>
               {/* {post header} */}
               <div className='w-full flex justify-between p-3'>
                 <div className='flex'>
@@ -54,8 +55,8 @@ function Home() {
               </div>
               {/* {post} */}
               <img
-              className='w-full bg-cover'
-              alt='preview'
+              className='w-full bg-cover object-full'
+              alt={<Spinner/>}
               src={`${post.imageUrl}`} 
               />
               {/* {post footer} */}
@@ -95,6 +96,7 @@ function Home() {
                   </div>
               </div>
             </div>
+            
           ))
         ):(
           <>

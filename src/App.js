@@ -12,6 +12,8 @@ import FileUpload from './components/FileUpload';
 import { useSelector } from 'react-redux';
 import EditProfile from './components/EditProfile/EditProfile';
 import AddPost from './components/AddPost.js/AddPost';
+import ShowFollowers from './components/ShowFollowers/ShowFollowers';
+import ShowFollowing from './components/ShowFollowing/ShowFollowing';
 
 function App() {
   // get user details
@@ -41,7 +43,7 @@ function App() {
           element:<Home/>
         },
         {
-          path:`/user/${user.username}`,
+          path:`/user/${user.username}/`,
           element:<UserProfile/>
         },
         {
@@ -55,6 +57,14 @@ function App() {
         {
           path:`${user.username}/newPost`,
           element:<AddPost/>
+        },
+        {
+          path:`user/${user.username}/followers`,
+          element:<ShowFollowers/>
+        },
+        {
+          path:`user/${user.username}/following`,
+          element:<ShowFollowing/>
         }
       ]
     }

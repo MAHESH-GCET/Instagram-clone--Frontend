@@ -8,7 +8,6 @@ function Register() {
   let navigate=useNavigate()
   // local state
   const [err,setErr]=useState(false)
-  const [image,setImage]=useState()
   
   // initial values
   const initialValues={
@@ -26,9 +25,6 @@ function Register() {
   const onSubmit=async(values)=>{
     if(values.profileUrl===null){
       values.profileUrl='https://cdn.iconscout.com/icon/free/png-512/free-profile-199-436934.png?f=avif&w=256'
-    }
-    else{
-      values.profileUrl=image
     }
     console.log(values)
     try{

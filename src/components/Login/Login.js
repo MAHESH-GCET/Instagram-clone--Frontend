@@ -60,7 +60,7 @@ function Login() {
           )}
         </div>
         <div>
-          <button className='login-button'>Log In</button>
+          <button className='login-button mt-2'>Log In</button>
         </div>
         <Link className='forgot-password fs-5 d-flex mt-3 mx-auto' to='/forgot-password'>Forgot Password?</Link>
       </form>
