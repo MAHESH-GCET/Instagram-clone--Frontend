@@ -118,7 +118,7 @@ function UserProfile() {
                 <div className="profile-stats">
                   <ul>
                     <li className="profile-stat-count">
-                      {userPosts.length > 0 && <>{userPosts.length}</>} Posts
+                      {userPosts.length >= 0 && <>{userPosts.length}</>} Posts
                     </li>
                     <li className="profile-stat-count">
                       <span

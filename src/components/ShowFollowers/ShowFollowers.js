@@ -31,6 +31,7 @@ function ShowFollowers() {
           },
         }
       );
+      console.log(response)
       setFollowers(response.data.followers);
       setDataFetched(true);
     } catch (error) {
@@ -84,9 +85,9 @@ function ShowFollowers() {
             <tbody>
               {followers?.map((follower) => (
                 <tr key={follower.username}>
-                  <td className=" " width={"65px"} height={"65px"}>
+                  <td width={"65px"} height={"65px"}>
                     <img
-                      src={follower.profileURL}
+                      src={follower.profileUrl}
                       alt="profile"
                       style={{ borderRadius: "50%" }}
                     ></img>

@@ -22,7 +22,7 @@ img {
 }
 
 .container {
-  /* max-width: 93.5rem; */
+  max-width: 93.5rem;
   margin: 0 auto;
   padding: 0 2rem;
 }
@@ -150,6 +150,7 @@ img {
   flex-wrap: wrap;
   margin: -1rem -1rem;
   padding-bottom: 3rem;
+  height: inherit;
 }
 
 .gallery-item {

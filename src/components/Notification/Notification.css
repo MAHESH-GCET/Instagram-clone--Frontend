@@ -1,0 +1,9 @@
+.vertical-line {
+    width: 1mm;
+    height: inherit;
+    background-color: grey; /* Change the color as desired */
+    margin: 0 10px; /* Adjust margin as needed */
+    padding: 0%;
+    opacity: 20%;
+    margin-top: 10%;
+  }

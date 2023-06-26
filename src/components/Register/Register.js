@@ -17,16 +17,12 @@ function Register() {
     fullName:'',
     age:'',
     gender:'',
-    profileUrl:''
+    profileUrl:'https://cdn.iconscout.com/icon/free/png-512/free-profile-199-436934.png?f=avif&w=256'
   }
 
   
   //on submit
   const onSubmit=async(values)=>{
-    if(values.profileUrl===null){
-      values.profileUrl='https://cdn.iconscout.com/icon/free/png-512/free-profile-199-436934.png?f=avif&w=256'
-    }
-    console.log(values)
     try{
       let response=await axios.post('http://localhost:5000/userApi/register',values) 
       console.log(response)
@@ -34,7 +30,7 @@ function Register() {
         console.log('user registered successfully')
         setTimeout(()=>{
           navigate("/")
-        },3000)
+        },1000)
       }
       else{
         console.log('err occured')
