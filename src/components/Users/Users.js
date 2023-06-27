@@ -60,6 +60,9 @@ function Users() {
     getAllUsers();
   }, []);
 
+  console.log('all users',allUsers)
+  console.log('pending',pendingReqs)
+
   return (
     <div
       className="container justify-content-start align-items-start"

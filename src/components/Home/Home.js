@@ -27,7 +27,7 @@ function Home() {
           },
         }
       );
-      console.log(response);
+      //console.log(response);
       if (response.status === 200) {
         const sortedFeed = response.data.posts.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
@@ -62,7 +62,7 @@ function Home() {
         console.log("error", error.message);
       }
     }));
-    console.log(newFeed);
+    //console.log(newFeed);
     setFeed(newFeed);
   };
 
@@ -81,7 +81,7 @@ function Home() {
       );
       console.log(response);
       if (response.data.message === "Liked") {
-        getFeed()
+        // getFeed()
         checkLike()
       } else {
         console.log(response.data);
@@ -105,7 +105,7 @@ function Home() {
       );
       console.log(response);
       if (response.data.message === "disliked") {
-        getFeed()
+        // getFeed()
         checkLike()
       } else {
         console.log(response.data);
@@ -120,7 +120,8 @@ function Home() {
     getFeed();
     checkLike()
   }, [fetched])
-
+   
+  console.log(feed)
 
   return (
     <div
@@ -158,7 +159,7 @@ function Home() {
               <div className="pt-2">
                 <div className="flex">
                   {/* {like} */}
-
+                  
                   {post.isLiked === true ? (
                     <button>
                       <svg
