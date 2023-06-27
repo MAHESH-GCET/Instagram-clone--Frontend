@@ -7,6 +7,7 @@ function Users() {
   // users
   let [allUsers, setAllUsers] = useState([]);
   let [pendingReqs, setPendingReqs] = useState([]);
+  let [searchedUser, setSearchedUser] = useState(null);
   // user
   const { user } = useSelector((state) => state.login);
   // token
@@ -55,13 +56,31 @@ function Users() {
     }
   };
 
+  // search user
+  const searchUser = async (event) => {
+    const username=event.target.value
+    try {
+      let response = await axios.get(
+        `http://localhost:5000/${event.target.value}/search`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setSearchedUser(response.data.user)
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   // use effect
   useEffect(() => {
     getAllUsers();
   }, []);
 
-  console.log('all users',allUsers)
-  console.log('pending',pendingReqs)
+  console.log("all users", allUsers);
+  console.log("pending", pendingReqs);
 
   return (
     <div
@@ -71,35 +90,74 @@ function Users() {
       <h1 className="ms-2" style={{ marginTop: "100px" }}>
         Users
       </h1>
-      <table className="table table-control table-responsive mt-5 m-2 mb-4 w-75">
-        <thead>
-          <tr></tr>
-        </thead>
-        <tbody className="text-center">
-          {allUsers?.map((user) => (
-            <tr key={user.username}>
-              <td width={"100px"} height={"100px"}>
-                <img
-                  src={`${user.profileUrl}`}
-                  alt="profile"
-                  style={{ borderRadius: "50%" }}
-                ></img>
-              </td>
-              <td>
-                <span className="fw-bold fs-5">{user.username}</span>
-              </td>
-              <td>
-                <button
-                  className="btn btn-primary p-3"
-                  onClick={() => sendRequest(user)}
-                >
-                  Follow
-                </button>
-              </td>
+      <form className="w-75" >
+        <input
+        type="text"
+        placeholder="Search User"
+        onChange={searchUser}
+        className="form-control p-4 ms-1 mt-2">
+        </input>
+      </form>
+      {searchedUser === null ? (
+        <table className="table table-control table-responsive mt-5 m-2 mb-4 w-75">
+          <thead>
+            <tr></tr>
+          </thead>
+          <tbody className="text-center">
+            {allUsers?.map((user) => (
+              <tr key={user.username}>
+                <td width={"100px"} height={"100px"}>
+                  <img
+                    src={`${user.profileUrl}`}
+                    alt="profile"
+                    style={{ borderRadius: "50%" }}
+                  ></img>
+                </td>
+                <td>
+                  <span className="fw-bold fs-5">{user.username}</span>
+                </td>
+                <td>
+                  <button
+                    className="btn btn-primary p-3"
+                    onClick={() => sendRequest(user)}
+                  >
+                    Follow
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <table className="table table-control table-responsive mt-5 m-2 mb-4 w-75">
+          <thead>
+            <tr></tr>
+          </thead>
+          <tbody className="text-center">
+            <tr>
+            <td width={"100px"} height={"100px"}>
+                  <img
+                    src={`${searchedUser.profileUrl}`}
+                    alt="profile"
+                    style={{ borderRadius: "50%" }}
+                  ></img>
+                </td>
+                <td>
+                  <span className="fw-bold fs-5">{searchedUser.username}</span>
+                </td>
+                <td>
+                  <button
+                    className="btn btn-primary p-3"
+                    onClick={() => sendRequest(searchedUser)}
+                  >
+                    Follow
+                  </button>
+                </td>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      )}
+
       {/* {pending requests} */}
       <div className="h-5 w-75">
         <Accordion defaultActiveKey="0">
@@ -114,12 +172,14 @@ function Users() {
                   {pendingReqs?.map((request) => (
                     <tr key={request.id}>
                       <td>
-                        <span className="fw-bold fs-5 float-left">{request.to_username}</span>
+                        <span className="fw-bold fs-5 float-left">
+                          {request.to_username}
+                        </span>
                       </td>
                       <td>
                         <button
                           className="btn p-2 float-end"
-                          style={{backgroundColor:'lightGray'}}
+                          style={{ backgroundColor: "lightGray" }}
                         >
                           Pending
                         </button>
